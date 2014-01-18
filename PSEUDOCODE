@@ -1,0 +1,8 @@
+PSEUDOCODE
+
+Get the id of the user's selection
+Slice off the last char
+Match it to the a field with that char
+Say: You feel the same as {{a2}} percent of our Most Creative People
+Show pie chart
+Remove click listeners for answers

@@ -1,0 +1,4 @@
+/component.json
+/bower_components
+/sass-cache/*
+.sass-cache/

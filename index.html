@@ -1,0 +1,163 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Everything You Ever Wanted To Know About the Macy's Thanksgiving Day&nbsp;Parade</title>
+	<meta name="viewport" content="width=device-width">
+	
+	<link rel="stylesheet" href="css/site.css">
+
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+	<script type="text/javascript" src="bower_components/tabletop/src/tabletop.js"></script>
+	<script type="text/javascript" src="bower_components/handlebars/handlebars.js"></script>
+	<script src="bower_components/jquery/jquery.js"></script>
+
+</head>
+<body>
+	<article class="macys-graphic">
+		<div class="header-wrap">
+			<header class="graphic-header">
+				<div class="mobile-logo">
+					<img src="img/fastcompany-dark-txt.svg" alt="FC logo" class="fc-logo-mobile">
+				</div>
+				<h1 class="graphic-title">See How You Measure Up Against Our Most Creative People</h1>
+				<div class="inset-container">
+					<img src="img/fastcompany-dark-txt.svg" alt="FC logo" class="fc-logo">
+					<div class="inset-wrap">
+						<h2 class="graphic-dek">Take the same survey we gave them and see your results compared instantly.</h2>
+					</div>
+				</div>
+			</header>
+		</div>
+<!-- 		<div class="graphic-game-wrap">
+			<p class="graphic-game graphic-byline">Design and story by Gus&nbsp;Wezerek</p>
+		</div> -->
+		<div class="quiz-mod">
+
+			<!-- HANDLEBARS TEMPLATE -->
+
+			<script id="handlebars-template" type="text/x-handlebars-template">
+				<ul class="question-mod" id="{{rowNumber}}">
+					<div class="pie"></div>
+					<h2 class="question"><span class="question-number">{{rowNumber}}.</span> {{question}}</h2>
+
+					{{#if q1}}
+						<li class="option-wrap">
+							<p class="option" data-option="q1" data-agree="{{a1}}">{{q1}}</p>
+						</li>
+					{{/if}}
+					{{#if q2}}
+						<li class="option-wrap">
+							<p class="option" data-option="q2" data-agree="{{a2}}">{{q2}}</p>
+						</li>
+					{{/if}}
+					{{#if q3}}
+						<li class="option-wrap">
+							<p class="option" data-option="q3" data-agree="{{a3}}">{{q3}}</p>
+						</li>
+					{{/if}}
+					{{#if q4}}
+						<li class="option-wrap">
+							<p class="option" data-option="q4" data-agree="{{a4}}">{{q4}}</p>
+						</li>
+					{{/if}}
+					{{#if q5}}
+						<li class="option-wrap">
+							<p class="option" data-option="q5" data-agree="{{a5}}">{{q5}}</p>
+						</li>
+					{{/if}}
+					{{#if q6}}
+						<li class="option-wrap">
+							<p class="option" data-option="q6" data-agree="{{a6}}">{{q6}}</p>
+						</li>
+					{{/if}}
+					{{#if q7}}
+						<li class="option-wrap">
+							<p class="option" data-option="q7" data-agree="{{a7}}">{{q7}}</p>
+						</li>
+					{{/if}}
+					{{#if q8}}
+						<li class="option-wrap">
+							<p class="option" data-option="q8" data-agree="{{a8}}">{{q8}}</p>
+						</li>
+					{{/if}}
+					<p class="results">
+						<span class="percentage"></span> percent of our Most Creative People agree with you.
+					</p>
+				</ul>
+			</script>
+
+
+			<!-- D3 LAYOUT -->
+			<script>
+
+				var width = 200,
+				    height = 200,
+				    radius = Math.min(width, height) / 2;
+
+				var color = d3.scale.ordinal()
+				    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+				var arc = d3.svg.arc()
+				    .outerRadius(radius - 10)
+				    .innerRadius(0);
+
+				var pie = d3.layout.pie()
+				    .sort(null)
+				    .value(function(d) { return d.percent; });
+
+
+				// OUR CANVAS
+
+				var svg = d3.selectAll(".pie").append("svg")
+				    .attr("width", width)
+				    .attr("height", height)
+				    .append("g")
+				    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+
+				// HERE BE DATA
+
+				d3.json("data.js", function(error, data) {
+
+				  data.forEach(function(d) {
+				    d.percent = +d.percent;
+				  });
+
+				  var g = svg.selectAll(".arc")
+				      .data(pie(data))
+				      .enter().append("g")
+				      .attr("class", "arc");
+
+				  g.append("path")
+				      .attr("d", arc)
+				      .style("fill", function(d) { return color(d.data.age); });
+
+				  g.append("text")
+				      .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+				      .attr("dy", ".35em")
+				      .style("text-anchor", "middle")
+				      .text(function(d) { return d.data.age; });
+
+				});
+
+			</script>
+
+			<script>
+
+			</script>
+
+		</div>
+
+	</article>
+		
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+	<script src="scripts/main.js"></script>
+
+</body>
+</html>
